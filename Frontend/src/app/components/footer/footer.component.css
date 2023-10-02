@@ -1,0 +1,18 @@
+.footer-basic {
+  padding:40px 0;
+  background-color:#ffffff;
+  color:#4b4c4d;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+
+
+.footer-basic .info {
+  margin-top:15px;
+  text-align:center;
+  font-size:20px;
+  color:#070707;
+  margin-bottom:0;
+}

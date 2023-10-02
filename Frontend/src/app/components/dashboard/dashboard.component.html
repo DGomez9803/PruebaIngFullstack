@@ -1,0 +1,142 @@
+<div class="container text-center">
+  <br />
+  <br />
+  <h2>Search for your flight.</h2>
+  <br />
+  <form  [formGroup]="form"  (ngSubmit)="search()" class="center-form">
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default"
+            >Origin</span
+          >
+          <input (input)="upperCase()"
+            type="text"
+            formControlName="origin" [class.invalid-field]="fieldNotFull('origin')"
+            [(ngModel)]="origin"
+            class="form-control"
+            aria-describedby="inputGroup-sizing-default"
+            id="origin"
+            name="origin"
+            required maxlength="3" minlength="3"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default"
+            >Destination</span
+          >
+          <input (input)="upperCase()"
+            type="text"
+            formControlName="destination" [class.invalid-field]="fieldNotFull('destination')"
+            [(ngModel)]="destination"
+            class="form-control"
+            aria-describedby="inputGroup-sizing-default"
+            id="destination"
+            name="destination"
+            required maxlength="3" minlength="3"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div>
+          <p *ngIf="showError" class="error-message">Missing data to fill or validate. Please correct the errors</p>
+         <p *ngIf="origin!='' && destination==origin" class="error-message">Origin and destination cannot be the same.</p>
+         <p *ngIf="form.controls['origin']?.errors?.['minlength'] " class="error-message">Origin must have minimum 3 letter.</p>
+         <p *ngIf="form.controls['destination']?.errors?.['minlength']" class="error-message">Destination must have minimum 3 letter.</p>
+
+      </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+  {{ message }}
+  <div *ngIf="journey">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <strong> Origin</strong>
+          </div>
+          <div class="col">
+          </div>
+          <div class="col">
+            <strong> Destination</strong>
+          </div>
+          <div class="col">
+            <strong> Price</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            {{ journey.origin }}
+          </div>
+          <div class="col">
+            <i class="bi bi-airplane"></i>
+                    </div>
+          <div class="col">
+            {{ journey.destination }}
+          </div>
+          <div class="col">
+            {{ journey.price | convertCurrency}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <h2>Flights</h2>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <strong> Origin</strong>
+          </div>
+          <div class="col">
+            <strong> Transport</strong>
+          </div>
+          <div class="col">
+            <strong> Destination</strong>
+          </div>
+          <div class="col">
+            <strong> Price</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div  class="card">
+      <ul   class="list-group list-group-flush">
+        <li *ngFor="let flight of journey.flights" class="list-group-item">
+        <div class="row">
+          <div class="col">
+            {{ flight.origin }}
+          </div>
+          <div class="col">
+            {{ flight.transport.flightCarrier }} - {{ flight.transport.flightNumber }}
+          </div>
+          <div class="col">
+            {{ flight.destination }}
+          </div>
+          <div class="col">
+            {{ flight.price | convertCurrency}}
+          </div>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
